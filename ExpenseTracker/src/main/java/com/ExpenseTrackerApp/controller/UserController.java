@@ -1,6 +1,7 @@
 package com.ExpenseTrackerApp.controller;
 
 import com.ExpenseTrackerApp.exception.UserAlreadyExistsException;
+import com.ExpenseTrackerApp.exception.UserNotFoundException;
 import com.ExpenseTrackerApp.model.User;
 import com.ExpenseTrackerApp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,15 @@ public class UserController {
         }
         userRepository.save(user);
         return ResponseEntity.ok("User registered successfully");
+    }
+    @PostMapping("/login")
+    public ResponseEntity<String> loginUser(@RequestBody User user){
+        User foundUser = userRepository.findById(user.getUsername()).orElseThrow(() -> new UserNotFoundException("User not found"));
+
+        if(!foundUser.getPassword().equals(user.getPassword())){
+           return ResponseEntity.status(401).body("Invalid credentials");
+        }
+        return ResponseEntity.ok("User logged in successfully");
     }
 
 
