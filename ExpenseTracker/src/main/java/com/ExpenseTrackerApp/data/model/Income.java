@@ -1,4 +1,4 @@
-package com.ExpenseTrackerApp.model;
+package com.ExpenseTrackerApp.data.model;
 
 import lombok.Data;
 

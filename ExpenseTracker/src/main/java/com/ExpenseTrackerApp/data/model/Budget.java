@@ -1,4 +1,4 @@
-package com.ExpenseTrackerApp.model;
+package com.ExpenseTrackerApp.data.model;
 
 import lombok.Data;
 
@@ -10,4 +10,6 @@ public class Budget {
     private double amount;
     private int month;
     private int year;
+
+
 }

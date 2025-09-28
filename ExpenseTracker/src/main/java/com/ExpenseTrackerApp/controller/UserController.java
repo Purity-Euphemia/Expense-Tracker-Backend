@@ -2,7 +2,7 @@ package com.ExpenseTrackerApp.controller;
 
 import com.ExpenseTrackerApp.exception.UserAlreadyExistsException;
 import com.ExpenseTrackerApp.exception.UserNotFoundException;
-import com.ExpenseTrackerApp.model.User;
+import com.ExpenseTrackerApp.data.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
