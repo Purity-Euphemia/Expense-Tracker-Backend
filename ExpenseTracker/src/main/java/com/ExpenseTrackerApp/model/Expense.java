@@ -4,18 +4,15 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDate;
+
 @Data
 @Document(collection = "transactions")
-public class Transaction {
+public class Expense {
     @Id
     private String id;
-
-    private String paymentMethod;
     private double amount;
-    private String date;
     private String category;
-    private String type;
-    private String notes;
-    private String username;
-    private boolean recurring;
+    private String description;
+    private LocalDate date;
 }
