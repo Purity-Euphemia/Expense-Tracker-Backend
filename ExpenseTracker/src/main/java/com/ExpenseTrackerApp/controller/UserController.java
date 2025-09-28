@@ -3,7 +3,6 @@ package com.ExpenseTrackerApp.controller;
 import com.ExpenseTrackerApp.exception.UserAlreadyExistsException;
 import com.ExpenseTrackerApp.exception.UserNotFoundException;
 import com.ExpenseTrackerApp.model.User;
-import com.ExpenseTrackerApp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +17,7 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody User user){
+        System.out.println("Registering user: " + user.getUsername());
         if(userRepository.existsById(user.getUsername())){
             throw new UserAlreadyExistsException("User already exists");
         }

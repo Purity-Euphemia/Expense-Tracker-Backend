@@ -1,7 +1,6 @@
 package com.ExpenseTrackerApp.service;
 
 import com.ExpenseTrackerApp.model.Transaction;
-import com.ExpenseTrackerApp.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
