@@ -12,6 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
+
     private final UserService userService = new UserService();
 
     @PostMapping
@@ -29,6 +30,11 @@ public class UserController {
     @PutMapping("/{id}")
     public UserResponse updateUser(@PathVariable int id, @RequestBody UpdateUserRequest updateUserRequest) {
         return userService.updateUser(id, updateUserRequest);
+    }
+    @DeleteMapping("/{id}")
+    public String deleteUser(@PathVariable int id) {
+        userService.deleteUser(id);
+        return "User has been deleted";
     }
 
 }

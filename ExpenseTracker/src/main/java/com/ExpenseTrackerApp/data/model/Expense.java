@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Document(collection = "transactions")
 public class Expense {
     @Id
-    private String id;
+    private int id;
     private int userId;
     private double amount;
     private String category;

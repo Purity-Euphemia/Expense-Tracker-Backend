@@ -5,11 +5,9 @@ import lombok.Data;
 import java.time.LocalDate;
 
 @Data
-public class AddExpenseRequest {
-    private int userId;
-    private double amount;
+public class UpdateExpenseRequest {
+    private Double amount;
     private String category;
     private String description;
     private LocalDate date;
 }
-
