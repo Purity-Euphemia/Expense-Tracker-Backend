@@ -9,8 +9,8 @@ import com.ExpenseTrackerApp.exception.ResourceNotFoundException;
 import com.ExpenseTrackerApp.utils.ValidationUtils;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ExpenseService {
     private final ExpenseRepository expenseRepository = new ExpenseRepository();
@@ -39,8 +39,12 @@ public class ExpenseService {
         return addExpenseResponse;
     }
     public List<AddExpenseResponse> getExpensesByUser(int userId) {
-        List<Expense> list = expenseRepository.findByUserId(userId);
-        return list.stream().map(this::toResponse).collect(Collectors.toList());
+        List<Expense> expenses = expenseRepository.findByUserId(userId);
+        List<AddExpenseResponse> responses = new ArrayList<>();
+        for (Expense expense : expenses) {
+            responses.add(toResponse(expense));
+        }
+        return responses;
     }
     public AddExpenseResponse updateExpense(int id, UpdateExpenseRequest updateExpenseRequest) {
         Expense existing = expenseRepository.findById(id);
@@ -68,6 +72,10 @@ public class ExpenseService {
     }
     public List<AddExpenseResponse> getExpensesInRange(int userId, LocalDate startDate, LocalDate endDate) {
         List<Expense> filteredExpenses = expenseRepository.findByUserAndDateRange(userId, startDate, endDate);
-        return filteredExpenses.stream().map(this::toResponse).collect(Collectors.toList());
+        List<AddExpenseResponse> responses = new ArrayList<>();
+        for (Expense expense : filteredExpenses) {
+            responses.add(toResponse(expense));
+        }
+        return responses;
     }
 }
