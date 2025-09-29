@@ -4,7 +4,9 @@ import com.ExpenseTrackerApp.data.model.User;
 import com.ExpenseTrackerApp.data.repository.UserRepository;
 import com.ExpenseTrackerApp.dto.Request.RegisterUserRequest;
 import com.ExpenseTrackerApp.dto.Response.UserResponse;
-import org.springframework.validation.ValidationUtils;
+import com.ExpenseTrackerApp.exception.ResourceNotFoundException;
+import com.ExpenseTrackerApp.utils.ValidationUtils;
+
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -44,6 +46,33 @@ public class UserService {
         if (user == null) {
             throw new ResourceNotFoundException("User not found with id " + id);
         }
+        return toResponse(user);
+    }
+
+    public UserResponse updateUser(int id, RegisterUserRequest registerUserRequest) {
+        User existing = userRepository.findById(id);
+        if (existing == null) {
+            throw new ResourceNotFoundException("User not found with id " + id);
+        }
+        if (registerUserRequest.getName() != null && !registerUserRequest.getName().isBlank()) {
+            existing.setName(registerUserRequest.getName());
+        }
+        if (registerUserRequest.getEmail() != null && !registerUserRequest.getEmail().isBlank()) {
+            existing.setEmail(registerUserRequest.getEmail());
+        }
+        if (registerUserRequest.getPassword() != null && !registerUserRequest.getPassword().isBlank()) {
+            existing.setPassword(registerUserRequest.getPassword());
+        }
+        User savedUser = userRepository.save(existing);
+        return toResponse(savedUser);
+    }
+
+    public void deleteUser(int id) {
+        User user = userRepository.findById(id);
+        if (user == null) {
+            throw new ResourceNotFoundException("User not found with id " + id);
+        }
         userRepository.deleteById(id);
     }
+
 }

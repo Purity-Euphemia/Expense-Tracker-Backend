@@ -1,39 +1,34 @@
 package com.ExpenseTrackerApp.controller;
 
-import com.ExpenseTrackerApp.exception.UserAlreadyExistsException;
-import com.ExpenseTrackerApp.exception.UserNotFoundException;
-import com.ExpenseTrackerApp.data.model.User;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import com.ExpenseTrackerApp.dto.Request.RegisterUserRequest;
+import com.ExpenseTrackerApp.dto.Request.UpdateUserRequest;
+import com.ExpenseTrackerApp.dto.Response.UserResponse;
+import com.ExpenseTrackerApp.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/users")
-@CrossOrigin(origins = "*")
 public class UserController {
+    private final UserService userService = new UserService();
 
-    @Autowired
-    private UserRepository userRepository;
-
-    @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@RequestBody User user){
-        System.out.println("Registering user: " + user.getUsername());
-        if(userRepository.existsById(user.getUsername())){
-            throw new UserAlreadyExistsException("User already exists");
-        }
-        userRepository.save(user);
-        return ResponseEntity.ok("User registered successfully");
+    @PostMapping
+    public UserResponse register(@RequestBody RegisterUserRequest registerUserRequest) {
+        return userService.registerUser(registerUserRequest);
     }
-    @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestBody User user){
-        User foundUser = userRepository.findById(user.getUsername()).orElseThrow(() -> new UserNotFoundException("User not found"));
-
-        if(!foundUser.getPassword().equals(user.getPassword())){
-           return ResponseEntity.status(401).body("Invalid credentials");
-        }
-        return ResponseEntity.ok("User logged in successfully");
+    @GetMapping
+    public List<UserResponse> getAll() {
+        return userService.getAllUsers();
     }
-
-
+    @GetMapping("/{id}")
+    public UserResponse getById(@PathVariable int id) {
+        return userService.getUserById(id);
+    }
+    @PutMapping("/{id}")
+    public UserResponse updateUser(@PathVariable int id, @RequestBody UpdateUserRequest updateUserRequest) {
+        return userService.updateUser(id, updateUserRequest);
+    }
 
 }
