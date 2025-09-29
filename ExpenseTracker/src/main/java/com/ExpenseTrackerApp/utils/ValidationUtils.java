@@ -1,5 +1,6 @@
 package com.ExpenseTrackerApp.utils;
 
+import com.ExpenseTrackerApp.dto.Request.AddExpenseRequest;
 import com.ExpenseTrackerApp.dto.Request.RegisterUserRequest;
 
 public class ValidationUtils {
@@ -20,5 +21,23 @@ public class ValidationUtils {
             throw new IllegalArgumentException("Invalid email format");
         }
 
+    }
+
+    public static void validateExpense(AddExpenseRequest addExpenseRequest) {
+        if (addExpenseRequest.getUserId() <= 0) {
+            throw new IllegalArgumentException("User id must be positive");
+        }
+        if (addExpenseRequest.getAmount() <= 0) {
+            throw new IllegalArgumentException("Amount must be greater than 0");
+        }
+        if (addExpenseRequest.getCategory() == null || addExpenseRequest.getCategory().isBlank()) {
+            throw new IllegalArgumentException("Category is required");
+        }
+        if (addExpenseRequest.getDescription() == null || addExpenseRequest.getDescription().isBlank()) {
+            throw new IllegalArgumentException("Description is required");
+        }
+        if (addExpenseRequest.getDate() == null) {
+            throw new IllegalArgumentException("Date is required");
+        }
     }
 }
