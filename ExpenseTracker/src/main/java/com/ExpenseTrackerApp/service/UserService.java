@@ -6,6 +6,8 @@ import com.ExpenseTrackerApp.dto.Request.RegisterUserRequest;
 import com.ExpenseTrackerApp.dto.Request.UpdateUserRequest;
 import com.ExpenseTrackerApp.dto.Response.UserResponse;
 import com.ExpenseTrackerApp.exception.ResourceNotFoundException;
+import com.ExpenseTrackerApp.exception.UserAlreadyExistsException;
+import com.ExpenseTrackerApp.exception.UserNotFoundException;
 import com.ExpenseTrackerApp.utils.ValidationUtils;
 
 
@@ -19,7 +21,7 @@ public class UserService {
         ValidationUtils.validateUser(registerUserRequest);
 
         if (userRepository.findByEmail(registerUserRequest.getEmail()) != null) {
-            throw new IllegalArgumentException("User already exists");
+            throw new UserAlreadyExistsException("User already exists");
         }
 
         User user = new User();
@@ -45,7 +47,7 @@ public class UserService {
     public UserResponse getUserById(int id) {
         User user = userRepository.findById(id);
         if (user == null) {
-            throw new ResourceNotFoundException("User not found with id " + id);
+            throw new UserNotFoundException("User not found with id " + id);
         }
         return toResponse(user);
     }
@@ -53,7 +55,7 @@ public class UserService {
     public UserResponse updateUser(int id, UpdateUserRequest updateUserRequest) {
         User existing = userRepository.findById(id);
         if (existing == null) {
-            throw new ResourceNotFoundException("User not found with id " + id);
+            throw new UserNotFoundException("User not found with id " + id);
         }
         if (updateUserRequest.getName() != null && !updateUserRequest.getName().isBlank()) {
             existing.setName(updateUserRequest.getName());

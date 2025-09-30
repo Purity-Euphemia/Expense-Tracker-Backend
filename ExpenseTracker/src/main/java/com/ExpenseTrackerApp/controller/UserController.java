@@ -24,15 +24,15 @@ public class UserController {
         return userService.getAllUsers();
     }
     @GetMapping("/{id}")
-    public UserResponse getById(@PathVariable int id) {
+    public UserResponse getById(@PathVariable("id") int id) {
         return userService.getUserById(id);
     }
     @PutMapping("/{id}")
-    public UserResponse updateUser(@PathVariable int id, @RequestBody UpdateUserRequest updateUserRequest) {
+    public UserResponse updateUser(@PathVariable("id") int id, @RequestBody UpdateUserRequest updateUserRequest) {
         return userService.updateUser(id, updateUserRequest);
     }
     @DeleteMapping("/{id}")
-    public String deleteUser(@PathVariable int id) {
+    public String deleteUser(@PathVariable("id") int id) {
         userService.deleteUser(id);
         return "User has been deleted";
     }

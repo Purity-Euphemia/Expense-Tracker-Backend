@@ -1,5 +1,6 @@
 package com.ExpenseTrackerApp.utils;
 
+import com.ExpenseTrackerApp.dto.Request.AddCategoryRequest;
 import com.ExpenseTrackerApp.dto.Request.AddExpenseRequest;
 import com.ExpenseTrackerApp.dto.Request.RegisterUserRequest;
 
@@ -39,5 +40,20 @@ public class ValidationUtils {
         if (addExpenseRequest.getDate() == null) {
             throw new IllegalArgumentException("Date is required");
         }
+
     }
+
+    public static void validateCategory(AddCategoryRequest addCategoryRequest) {
+        if (addCategoryRequest.getName() == null || addCategoryRequest.getName().isBlank()) {
+            throw new IllegalArgumentException("Category name is required.");
+        }
+        if (addCategoryRequest.getType() == null || addCategoryRequest.getType().isBlank()) {
+            throw new IllegalArgumentException("Category type is required.");
+        }
+        String type = addCategoryRequest.getType().toLowerCase();
+        if (!(type.equals("income") || type.equals("expense"))) {
+            throw new IllegalArgumentException("Category type must be 'income' or 'expense'.");
+        }
+    }
+
 }
