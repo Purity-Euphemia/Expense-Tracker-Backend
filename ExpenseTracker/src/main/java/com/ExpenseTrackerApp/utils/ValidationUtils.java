@@ -1,5 +1,6 @@
 package com.ExpenseTrackerApp.utils;
 
+import com.ExpenseTrackerApp.dto.Request.AddBudgetRequest;
 import com.ExpenseTrackerApp.dto.Request.AddCategoryRequest;
 import com.ExpenseTrackerApp.dto.Request.AddExpenseRequest;
 import com.ExpenseTrackerApp.dto.Request.RegisterUserRequest;
@@ -55,5 +56,24 @@ public class ValidationUtils {
             throw new IllegalArgumentException("Category type must be 'income' or 'expense'.");
         }
     }
+
+    public static void validateBudget(AddBudgetRequest addBudgetRequest) {
+        if (addBudgetRequest.getUserId() <= 0) {
+            throw new IllegalArgumentException("UserId must be positive");
+        }
+        if (addBudgetRequest.getCategoryId() <= 0) {
+            throw new IllegalArgumentException("CategoryId must be positive");
+        }
+        if (addBudgetRequest.getAmount() <= 0) {
+            throw new IllegalArgumentException("Amount must be greater than zero");
+        }
+        if (addBudgetRequest.getMonth() < 1 || addBudgetRequest.getMonth() > 12) {
+            throw new IllegalArgumentException("Month must be between 1 and 12");
+        }
+        if (addBudgetRequest.getYear() < 2000) {
+            throw new IllegalArgumentException("Year must be valid");
+        }
+    }
+
 
 }
