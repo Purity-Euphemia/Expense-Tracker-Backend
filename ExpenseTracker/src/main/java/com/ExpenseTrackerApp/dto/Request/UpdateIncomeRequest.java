@@ -5,9 +5,8 @@ import lombok.Data;
 import java.time.LocalDate;
 
 @Data
-public class AddIncomeRequest {
-    private int userId;
-    private double amount;
+public class UpdateIncomeRequest {
+    private Double amount;
     private String source;
     private LocalDate date;
 }

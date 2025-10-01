@@ -11,8 +11,9 @@ import com.ExpenseTrackerApp.exception.UserNotFoundException;
 import com.ExpenseTrackerApp.utils.ValidationUtils;
 
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 public class UserService {
     private final UserRepository userRepository = new UserRepository();
@@ -41,7 +42,12 @@ public class UserService {
     }
 
     public List<UserResponse> getAllUsers() {
-        return userRepository.findAll().stream().map(this::toResponse).collect(Collectors.toList());
+        List<User> users = userRepository.findAll();
+        List<UserResponse> resp = new ArrayList<>();
+        for (User user : users) {
+            resp.add(toResponse(user));
+        }
+        return resp;
     }
 
     public UserResponse getUserById(int id) {

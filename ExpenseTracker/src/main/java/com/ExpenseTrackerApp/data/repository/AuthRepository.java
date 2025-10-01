@@ -1,21 +1,11 @@
 package com.ExpenseTrackerApp.data.repository;
 
 import com.ExpenseTrackerApp.data.model.AuthToken;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
 
-public class AuthRepository {
-    private final List<AuthToken> tokens = new ArrayList<>();
+public interface AuthRepository extends MongoRepository<AuthToken, String> {
+    Optional<AuthToken> findByToken(String token);
 
-    public AuthToken save(AuthToken token) {
-        tokens.add(token);
-        return token;
-    }
-    public AuthToken findByToken(String token) {
-        return tokens.stream().filter(authToken -> authToken.getToken().equals(token)).findFirst().orElse(null);
-    }
-    public void deleteByToken(String token) {
-        tokens.removeIf(authToken -> authToken.getToken().equals(token));
-    }
 }

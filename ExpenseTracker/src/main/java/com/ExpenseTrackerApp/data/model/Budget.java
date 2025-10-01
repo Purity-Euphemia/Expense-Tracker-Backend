@@ -1,12 +1,16 @@
 package com.ExpenseTrackerApp.data.model;
 
 import lombok.Data;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
+@Document(collection = "budgets")
 public class Budget {
-    private int id;
-    private int userId;
-    private int categoryId;
+    @Id
+    private String id;
+    private String userId;
+    private String categoryId;
     private double amount;
     private int month;
     private int year;

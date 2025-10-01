@@ -12,31 +12,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BudgetService {
-    private final BudgetRepository repo = new BudgetRepository();
+    private final BudgetRepository budgetRepository = new BudgetRepository();
 
-    public BudgetResponse setBudget(AddBudgetRequest req) {
-        ValidationUtils.validateBudget(req);
+    public BudgetResponse setBudget(AddBudgetRequest addBudgetRequest) {
+        ValidationUtils.validateBudget(addBudgetRequest);
 
         Budget budget = new Budget();
-        budget.setUserId(req.getUserId());
-        budget.setCategoryId(req.getCategoryId());
-        budget.setAmount(req.getAmount());
-        budget.setMonth(req.getMonth());
-        budget.setYear(req.getYear());
+        budget.setUserId(addBudgetRequest.getUserId());
+        budget.setCategoryId(addBudgetRequest.getCategoryId());
+        budget.setAmount(addBudgetRequest.getAmount());
+        budget.setMonth(addBudgetRequest.getMonth());
+        budget.setYear(addBudgetRequest.getYear());
 
-        Budget saved = repo.save(budget);
+        Budget saved = budgetRepository.save(budget);
         return toResponse(saved);
     }
     public List<BudgetResponse> getUserBudgets(int userId) {
-        List<Budget> all = repo.findByUserId(userId);
+        List<Budget> all = budgetRepository.findByUserId(userId);
         List<BudgetResponse> respList = new ArrayList<>();
-        for (Budget b : all) {
-            respList.add(toResponse(b));
+        for (Budget budget : all) {
+            respList.add(toResponse(budget));
         }
         return respList;
     }
     public BudgetResponse updateBudget(int id, UpdateBudgetRequest updateBudgetRequest) {
-        Budget existing = repo.findById(id);
+        Budget existing = budgetRepository.findById(id);
         if (existing == null) {
             throw new ResourceNotFoundException("Budget not found with id " + id);
         }
@@ -49,32 +49,32 @@ public class BudgetService {
         if (updateBudgetRequest.getYear() != null) {
             existing.setYear(updateBudgetRequest.getYear());
         }
-        Budget saved = repo.save(existing);
+        Budget saved = budgetRepository.save(existing);
         return toResponse(saved);
     }
     public String deleteBudget(int id) {
-        Budget existing = repo.findById(id);
+        Budget existing = budgetRepository.findById(id);
         if (existing == null) {
             throw new ResourceNotFoundException("Budget not found with id " + id);
         }
-        repo.deleteById(id);
+        budgetRepository.deleteById(id);
         return "Budget deleted";
     }
     public BudgetResponse getBudgetForUserCategoryMonth(int userId, int categoryId, int month, int year) {
-        Budget b = repo.findByUserCategoryMonthYear(userId, categoryId, month, year);
-        if (b == null) {
+        Budget budget = budgetRepository.findByUserCategoryMonthYear(userId, categoryId, month, year);
+        if (budget == null) {
             throw new ResourceNotFoundException("No budget found");
         }
-        return toResponse(b);
+        return toResponse(budget);
     }
     private BudgetResponse toResponse(Budget b) {
-        BudgetResponse resp = new BudgetResponse();
-        resp.setId(b.getId());
-        resp.setUserId(b.getUserId());
-        resp.setCategoryId(b.getCategoryId());
-        resp.setAmount(b.getAmount());
-        resp.setMonth(b.getMonth());
-        resp.setYear(b.getYear());
-        return resp;
+        BudgetResponse budgetResponse = new BudgetResponse();
+        budgetResponse.setId(b.getId());
+        budgetResponse.setUserId(b.getUserId());
+        budgetResponse.setCategoryId(b.getCategoryId());
+        budgetResponse.setAmount(b.getAmount());
+        budgetResponse.setMonth(b.getMonth());
+        budgetResponse.setYear(b.getYear());
+        return budgetResponse;
     }
 }

@@ -1,12 +1,17 @@
 package com.ExpenseTrackerApp.data.model;
 
 import lombok.Data;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
 
 @Data
+@Document(collection = "incomes")
 public class Income {
-    private int id;
+    @Id
+    private String id;
+    private String userId;
     private double amount;
     private String source;
     private LocalDate date;

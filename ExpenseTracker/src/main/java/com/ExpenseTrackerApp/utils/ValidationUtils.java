@@ -1,9 +1,6 @@
 package com.ExpenseTrackerApp.utils;
 
-import com.ExpenseTrackerApp.dto.Request.AddBudgetRequest;
-import com.ExpenseTrackerApp.dto.Request.AddCategoryRequest;
-import com.ExpenseTrackerApp.dto.Request.AddExpenseRequest;
-import com.ExpenseTrackerApp.dto.Request.RegisterUserRequest;
+import com.ExpenseTrackerApp.dto.Request.*;
 
 public class ValidationUtils {
     public static void validateUser(RegisterUserRequest registerUserRequest) {
@@ -74,6 +71,22 @@ public class ValidationUtils {
             throw new IllegalArgumentException("Year must be valid");
         }
     }
+
+    public static void validateIncome(AddIncomeRequest addIncomeRequest) {
+        if (addIncomeRequest.getUserId() <= 0) {
+            throw new IllegalArgumentException("UserId must be positive.");
+        }
+        if (addIncomeRequest.getAmount() <= 0) {
+            throw new IllegalArgumentException("Amount must be greater than zero.");
+        }
+        if (addIncomeRequest.getSource() == null || addIncomeRequest.getSource().isBlank()) {
+            throw new IllegalArgumentException("Source is required.");
+        }
+        if (addIncomeRequest.getDate() == null) {
+            throw new IllegalArgumentException("Date is required.");
+        }
+    }
+
 
 
 
