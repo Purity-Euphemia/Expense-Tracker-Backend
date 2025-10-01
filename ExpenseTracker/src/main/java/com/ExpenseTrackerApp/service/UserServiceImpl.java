@@ -9,15 +9,20 @@ import com.ExpenseTrackerApp.exception.ResourceNotFoundException;
 import com.ExpenseTrackerApp.exception.UserAlreadyExistsException;
 import com.ExpenseTrackerApp.exception.UserNotFoundException;
 import com.ExpenseTrackerApp.utils.ValidationUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Service
 public class UserServiceImpl implements UserService {
-    private final UserRepository userRepository = new UserRepository();
 
+    @Autowired
+    private UserRepository userRepository;
+
+    @Override
     public UserResponse registerUser(RegisterUserRequest registerUserRequest) {
         ValidationUtils.validateUser(registerUserRequest);
 
@@ -40,7 +45,7 @@ public class UserServiceImpl implements UserService {
         response.setEmail(user.getEmail());
         return response;
     }
-
+    @Override
     public List<UserResponse> getAllUsers() {
         List<User> users = userRepository.findAll();
         List<UserResponse> resp = new ArrayList<>();
@@ -49,16 +54,16 @@ public class UserServiceImpl implements UserService {
         }
         return resp;
     }
-
-    public UserResponse getUserById(int id) {
+    @Override
+    public UserResponse getUserById(String id) {
         User user = userRepository.findById(id);
         if (user == null) {
             throw new UserNotFoundException("User not found with id " + id);
         }
         return toResponse(user);
     }
-
-    public UserResponse updateUser(int id, UpdateUserRequest updateUserRequest) {
+    @Override
+    public UserResponse updateUser(String id, UpdateUserRequest updateUserRequest) {
         User existing = userRepository.findById(id);
         if (existing == null) {
             throw new UserNotFoundException("User not found with id " + id);
@@ -72,13 +77,14 @@ public class UserServiceImpl implements UserService {
         User savedUser = userRepository.save(existing);
         return toResponse(savedUser);
     }
-
-    public void deleteUser(int id) {
+    @Override
+    public String deleteUser(String id) {
         User user = userRepository.findById(id);
         if (user == null) {
             throw new ResourceNotFoundException("User not found with id " + id);
         }
         userRepository.deleteById(id);
+        return "User deleted";
     }
 
 }
