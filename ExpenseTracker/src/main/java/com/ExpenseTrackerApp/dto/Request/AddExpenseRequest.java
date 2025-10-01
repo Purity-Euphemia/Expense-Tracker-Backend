@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 @Data
 public class AddExpenseRequest {
-    private int userId;
+    private String userId;
     private double amount;
     private String category;
     private String description;

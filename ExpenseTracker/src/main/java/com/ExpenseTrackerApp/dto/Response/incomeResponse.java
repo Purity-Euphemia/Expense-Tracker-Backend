@@ -7,8 +7,8 @@ import java.time.LocalDate;
 
 @Data
 public class IncomeResponse {
-    private int id;
-    private int userId;
+    private String id;
+    private String userId;
     private double amount;
     private String source;
     private LocalDate date;

@@ -3,7 +3,7 @@ package com.ExpenseTrackerApp.controller;
 import com.ExpenseTrackerApp.dto.Request.AddBudgetRequest;
 import com.ExpenseTrackerApp.dto.Request.UpdateBudgetRequest;
 import com.ExpenseTrackerApp.dto.Response.BudgetResponse;
-import com.ExpenseTrackerApp.service.BudgetService;
+import com.ExpenseTrackerApp.service.BudgetServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/budgets")
 public class BudgetController {
-    private final BudgetService service = new BudgetService();
+    private final BudgetServiceImpl service = new BudgetServiceImpl();
 
     @PostMapping
     public BudgetResponse setBudget(@RequestBody AddBudgetRequest addBudgetRequest) {

@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class UpdateBudgetRequest {
     private Double amount;
-    private Integer month;
-    private Integer year;
+    private int month;
+    private int year;
 }

@@ -3,14 +3,14 @@ package com.ExpenseTrackerApp.controller;
 import com.ExpenseTrackerApp.dto.Request.AddCategoryRequest;
 import com.ExpenseTrackerApp.dto.Request.UpdateCategoryRequest;
 import com.ExpenseTrackerApp.dto.Response.CategoryResponse;
-import com.ExpenseTrackerApp.service.CategoryService;
+import com.ExpenseTrackerApp.service.CategoryServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/categories")
 public class CategoryController {
-    private final CategoryService categoryService = new CategoryService();
+    private final CategoryServiceImpl categoryService = new CategoryServiceImpl();
 
     @PostMapping
     public CategoryResponse addCategory(@RequestBody AddCategoryRequest addCategoryRequest) {

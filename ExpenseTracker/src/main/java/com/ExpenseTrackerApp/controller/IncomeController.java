@@ -3,7 +3,7 @@ package com.ExpenseTrackerApp.controller;
 import com.ExpenseTrackerApp.dto.Request.AddIncomeRequest;
 import com.ExpenseTrackerApp.dto.Request.UpdateIncomeRequest;
 import com.ExpenseTrackerApp.dto.Response.IncomeResponse;
-import com.ExpenseTrackerApp.service.IncomeService;
+import com.ExpenseTrackerApp.service.IncomeServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/incomes")
 public class IncomeController {
-    private final IncomeService service = new IncomeService();
+    private final IncomeServiceImpl service = new IncomeServiceImpl();
 
     @PostMapping
     public IncomeResponse addIncome(@RequestBody AddIncomeRequest addIncomeRequest) {

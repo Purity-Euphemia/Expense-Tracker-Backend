@@ -4,9 +4,9 @@ import lombok.Data;
 
 @Data
 public class BudgetResponse {
-    private int id;
-    private int userId;
-    private int categoryId;
+    private String id;
+    private String  userId;
+    private String categoryId;
     private double amount;
     private int month;
     private int year;

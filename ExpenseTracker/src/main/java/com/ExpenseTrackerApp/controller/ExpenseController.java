@@ -3,7 +3,7 @@ package com.ExpenseTrackerApp.controller;
 import com.ExpenseTrackerApp.dto.Request.AddExpenseRequest;
 import com.ExpenseTrackerApp.dto.Request.UpdateExpenseRequest;
 import com.ExpenseTrackerApp.dto.Response.AddExpenseResponse;
-import com.ExpenseTrackerApp.service.ExpenseService;
+import com.ExpenseTrackerApp.service.ExpenseServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/expenses")
 public class ExpenseController {
-    private final ExpenseService expenseService = new ExpenseService();
+    private final ExpenseServiceImpl expenseService = new ExpenseServiceImpl();
 
     @PostMapping
     public AddExpenseResponse addExpense(@RequestBody AddExpenseRequest addExpenseRequest) {
