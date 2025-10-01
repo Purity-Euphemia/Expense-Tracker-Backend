@@ -13,9 +13,10 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
-public class IncomeServiceImpl implements IncomeService{
+public class IncomeServiceImpl implements IncomeService {
 
     @Autowired
     private IncomeRepository incomeRepository;
@@ -32,6 +33,7 @@ public class IncomeServiceImpl implements IncomeService{
         Income saved = incomeRepository.save(income);
         return toResponse(saved);
     }
+
     @Override
     public List<IncomeResponse> getIncomeByUser(String userId) {
         List<Income> incomes = incomeRepository.findByUserId(userId);
@@ -41,6 +43,7 @@ public class IncomeServiceImpl implements IncomeService{
         }
         return responses;
     }
+
     @Override
     public List<IncomeResponse> getAllIncome() {
         List<Income> incomes = incomeRepository.findAll();
@@ -50,12 +53,12 @@ public class IncomeServiceImpl implements IncomeService{
         }
         return responses;
     }
+
     @Override
     public IncomeResponse updateIncome(String id, UpdateIncomeRequest updateIncomeRequest) {
-        Income existing = incomeRepository.findById(id);
-        if (existing == null) {
-            throw new ResourceNotFoundException("Income not found with id " + id);
-        }
+        Optional<Income> optionalIncome = incomeRepository.findById(id);
+        Income existing = optionalIncome.orElseThrow(() -> new ResourceNotFoundException("Income not found with id " + id));
+
         if (updateIncomeRequest.getAmount() != null) {
             existing.setAmount(updateIncomeRequest.getAmount());
         }
@@ -68,15 +71,16 @@ public class IncomeServiceImpl implements IncomeService{
         Income saved = incomeRepository.save(existing);
         return toResponse(saved);
     }
+
     @Override
     public String deleteIncome(String id) {
-        Income existing = incomeRepository.findById(id);
-        if (existing == null) {
-            throw new ResourceNotFoundException("Income not found with id " + id);
-        }
+        Optional<Income> optionalIncome = incomeRepository.findById(id);
+        Income existing = optionalIncome.orElseThrow(() -> new ResourceNotFoundException("Income not found with id " + id));
+
         incomeRepository.deleteById(id);
         return "Deleted income";
     }
+
     @Override
     public double getMonthlyIncome(String userId, int month, int year) {
         List<Income> incomes = incomeRepository.findByUserId(userId);

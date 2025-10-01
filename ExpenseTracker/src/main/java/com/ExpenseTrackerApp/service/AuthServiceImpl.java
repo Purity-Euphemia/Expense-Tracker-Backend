@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 @Service
-public class AuthServiceImpl implements AuthService{
+public class AuthServiceImpl implements AuthService {
     @Autowired
     private UserRepository userRepository;
 
@@ -22,10 +22,12 @@ public class AuthServiceImpl implements AuthService{
 
     @Override
     public LoginResponse login(LoginRequest loginRequest) {
-        User user = userRepository.findByEmail(loginRequest.getEmail());
-        if (user == null || !user.getPassword().equals(loginRequest.getPassword())) {
+        User user = userRepository.findByEmail(loginRequest.getEmail()).orElseThrow(() -> new IllegalArgumentException("Invalid credentials"));
+
+        if (!user.getPassword().equals(loginRequest.getPassword())) {
             throw new IllegalArgumentException("Invalid credentials");
         }
+
         AuthToken token = new AuthToken();
         token.setUserId(user.getId());
         token.setToken(UUID.randomUUID().toString());
@@ -36,12 +38,12 @@ public class AuthServiceImpl implements AuthService{
         loginResponse.setToken(token.getToken());
         return loginResponse;
     }
+
+
     @Override
     public String logout(String tokenStr) {
-        AuthToken token = authRepository.findByToken(tokenStr);
-        if (token == null) {
-            throw new ResourceNotFoundException("Invalid token");
-        }
-       return "Logout successful";
+        AuthToken token = authRepository.findByToken(tokenStr).orElseThrow(() -> new ResourceNotFoundException("Invalid token"));
+        authRepository.delete(token);
+        return "Logout successful";
     }
 }

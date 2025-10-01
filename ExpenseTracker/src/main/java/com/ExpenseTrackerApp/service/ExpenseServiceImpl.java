@@ -46,10 +46,8 @@ public class ExpenseServiceImpl implements ExpenseService {
 
     @Override
     public AddExpenseResponse updateExpense(String id, UpdateExpenseRequest updateExpenseRequest) {
-        Expense existing = expenseRepository.findById(id);
-        if (existing == null) {
-            throw new ResourceNotFoundException("Expense not found: " + id);
-        }
+        Expense existing = expenseRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Expense not found: " + id));
 
         if (updateExpenseRequest.getAmount() != null) existing.setAmount(updateExpenseRequest.getAmount());
         if (updateExpenseRequest.getCategory() != null) existing.setCategory(updateExpenseRequest.getCategory());
@@ -62,10 +60,9 @@ public class ExpenseServiceImpl implements ExpenseService {
 
     @Override
     public String deleteExpense(String id) {
-        Expense existing = expenseRepository.findById(id);
-        if (existing == null) {
-            throw new ResourceNotFoundException("Expense not found with id: " + id);
-        }
+        Expense existing = expenseRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Expense not found with id: " + id));
+
         expenseRepository.deleteById(id);
         return "Expense has been deleted";
     }
@@ -84,7 +81,7 @@ public class ExpenseServiceImpl implements ExpenseService {
 
     @Override
     public List<AddExpenseResponse> getExpensesInRange(String userId, LocalDate startDate, LocalDate endDate) {
-        List<Expense> filteredExpenses = expenseRepository.findByUserAndDateBetween(userId, startDate, endDate);
+        List<Expense> filteredExpenses = expenseRepository.findByUserIdAndDateBetween(userId, startDate, endDate);
         List<AddExpenseResponse> responses = new ArrayList<>();
         for (Expense expense : filteredExpenses) {
             responses.add(toResponse(expense));

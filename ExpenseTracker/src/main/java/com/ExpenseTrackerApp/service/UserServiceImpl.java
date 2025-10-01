@@ -12,7 +12,6 @@ import com.ExpenseTrackerApp.utils.ValidationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +37,7 @@ public class UserServiceImpl implements UserService {
         User savedUser = userRepository.save(user);
         return toResponse(savedUser);
     }
+
     private UserResponse toResponse(User user) {
         UserResponse response = new UserResponse();
         response.setId(user.getId());
@@ -45,6 +45,7 @@ public class UserServiceImpl implements UserService {
         response.setEmail(user.getEmail());
         return response;
     }
+
     @Override
     public List<UserResponse> getAllUsers() {
         List<User> users = userRepository.findAll();
@@ -54,37 +55,32 @@ public class UserServiceImpl implements UserService {
         }
         return resp;
     }
+
     @Override
     public UserResponse getUserById(String id) {
-        User user = userRepository.findById(id);
-        if (user == null) {
-            throw new UserNotFoundException("User not found with id " + id);
-        }
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found with id " + id));
         return toResponse(user);
     }
+
     @Override
     public UserResponse updateUser(String id, UpdateUserRequest updateUserRequest) {
-        User existing = userRepository.findById(id);
-        if (existing == null) {
-            throw new UserNotFoundException("User not found with id " + id);
-        }
+        User existing = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found with id " + id));
+
         if (updateUserRequest.getName() != null && !updateUserRequest.getName().isBlank()) {
             existing.setName(updateUserRequest.getName());
         }
         if (updateUserRequest.getEmail() != null && !updateUserRequest.getEmail().isBlank()) {
             existing.setEmail(updateUserRequest.getEmail());
         }
+
         User savedUser = userRepository.save(existing);
         return toResponse(savedUser);
     }
+
     @Override
     public String deleteUser(String id) {
-        User user = userRepository.findById(id);
-        if (user == null) {
-            throw new ResourceNotFoundException("User not found with id " + id);
-        }
+        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found with id " + id));
         userRepository.deleteById(id);
         return "User deleted";
     }
-
 }
