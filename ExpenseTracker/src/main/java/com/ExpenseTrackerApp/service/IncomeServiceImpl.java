@@ -18,8 +18,12 @@ import java.util.Optional;
 @Service
 public class IncomeServiceImpl implements IncomeService {
 
+    private final IncomeRepository incomeRepository;
+
     @Autowired
-    private IncomeRepository incomeRepository;
+    public IncomeServiceImpl(IncomeRepository incomeRepository) {
+        this.incomeRepository = incomeRepository;
+    }
 
     @Override
     public IncomeResponse addIncome(AddIncomeRequest addIncomeRequest) {

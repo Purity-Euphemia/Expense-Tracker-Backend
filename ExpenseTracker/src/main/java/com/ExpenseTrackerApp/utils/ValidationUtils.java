@@ -3,28 +3,28 @@ package com.ExpenseTrackerApp.utils;
 import com.ExpenseTrackerApp.dto.Request.*;
 
 public class ValidationUtils {
+
     public static void validateUser(RegisterUserRequest registerUserRequest) {
-        if(registerUserRequest.getName() == null || registerUserRequest.getName().isBlank()) {
+        if (registerUserRequest.getName() == null || registerUserRequest.getName().isBlank()) {
             throw new IllegalArgumentException("Name is required");
         }
-        if(registerUserRequest.getEmail() == null || registerUserRequest.getEmail().isBlank()) {
+        if (registerUserRequest.getEmail() == null || registerUserRequest.getEmail().isBlank()) {
             throw new IllegalArgumentException("Email is required");
         }
-        if(registerUserRequest.getPassword() == null || registerUserRequest.getPassword().isBlank()) {
+        if (registerUserRequest.getPassword() == null || registerUserRequest.getPassword().isBlank()) {
             throw new IllegalArgumentException("Password is required");
         }
-        if(registerUserRequest.getPassword().length() < 4) {
+        if (registerUserRequest.getPassword().length() < 4) {
             throw new IllegalArgumentException("Password must be at least 4 characters long");
         }
-        if(!registerUserRequest.getEmail().contains("@")) {
+        if (!registerUserRequest.getEmail().contains("@")) {
             throw new IllegalArgumentException("Invalid email format");
         }
-
     }
 
     public static void validateExpense(AddExpenseRequest addExpenseRequest) {
-        if (addExpenseRequest.getUserId() <= 0) {
-            throw new IllegalArgumentException("User id must be positive");
+        if (addExpenseRequest.getUserId() == null || addExpenseRequest.getUserId().isBlank()) {
+            throw new IllegalArgumentException("User id is required");
         }
         if (addExpenseRequest.getAmount() <= 0) {
             throw new IllegalArgumentException("Amount must be greater than 0");
@@ -38,7 +38,6 @@ public class ValidationUtils {
         if (addExpenseRequest.getDate() == null) {
             throw new IllegalArgumentException("Date is required");
         }
-
     }
 
     public static void validateCategory(AddCategoryRequest addCategoryRequest) {
@@ -55,11 +54,11 @@ public class ValidationUtils {
     }
 
     public static void validateBudget(AddBudgetRequest addBudgetRequest) {
-        if (addBudgetRequest.getUserId() <= 0) {
-            throw new IllegalArgumentException("UserId must be positive");
+        if (addBudgetRequest.getUserId() == null || addBudgetRequest.getUserId().isBlank()) {
+            throw new IllegalArgumentException("UserId is required");
         }
-        if (addBudgetRequest.getCategoryId() <= 0) {
-            throw new IllegalArgumentException("CategoryId must be positive");
+        if (addBudgetRequest.getCategoryId() == null || addBudgetRequest.getCategoryId().isBlank()) {
+            throw new IllegalArgumentException("CategoryId is required");
         }
         if (addBudgetRequest.getAmount() <= 0) {
             throw new IllegalArgumentException("Amount must be greater than zero");
@@ -73,8 +72,8 @@ public class ValidationUtils {
     }
 
     public static void validateIncome(AddIncomeRequest addIncomeRequest) {
-        if (addIncomeRequest.getUserId() <= 0) {
-            throw new IllegalArgumentException("UserId must be positive.");
+        if (addIncomeRequest.getUserId() == null || addIncomeRequest.getUserId().isBlank()) {
+            throw new IllegalArgumentException("UserId is required.");
         }
         if (addIncomeRequest.getAmount() <= 0) {
             throw new IllegalArgumentException("Amount must be greater than zero.");
@@ -86,8 +85,4 @@ public class ValidationUtils {
             throw new IllegalArgumentException("Date is required.");
         }
     }
-
-
-
-
 }

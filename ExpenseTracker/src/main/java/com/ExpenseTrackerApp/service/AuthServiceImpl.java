@@ -14,11 +14,15 @@ import java.util.UUID;
 
 @Service
 public class AuthServiceImpl implements AuthService {
-    @Autowired
-    private UserRepository userRepository;
+
+    private final UserRepository userRepository;
+    private final AuthRepository authRepository;
 
     @Autowired
-    private AuthRepository authRepository;
+    public AuthServiceImpl(UserRepository userRepository, AuthRepository authRepository) {
+        this.userRepository = userRepository;
+        this.authRepository = authRepository;
+    }
 
     @Override
     public LoginResponse login(LoginRequest loginRequest) {

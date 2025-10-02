@@ -2,14 +2,21 @@ package com.ExpenseTrackerApp.controller;
 
 import com.ExpenseTrackerApp.dto.Request.LoginRequest;
 import com.ExpenseTrackerApp.dto.Response.LoginResponse;
-import com.ExpenseTrackerApp.service.AuthServiceImpl;
+import com.ExpenseTrackerApp.service.AuthService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
-    private final AuthServiceImpl service = new AuthServiceImpl();
+
+    private final AuthService service;
+
+    @Autowired
+    public AuthController(AuthService service) {
+        this.service = service;
+    }
 
     @PostMapping("/login")
     public LoginResponse login(@RequestBody LoginRequest loginRequest) {
@@ -22,4 +29,3 @@ public class AuthController {
         return "Logged out";
     }
 }
-

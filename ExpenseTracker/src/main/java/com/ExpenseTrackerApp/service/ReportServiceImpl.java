@@ -16,11 +16,14 @@ import java.util.Map;
 @Service
 public class ReportServiceImpl implements ReportService {
 
-    @Autowired
-    private ExpenseRepository expenseRepository;
+    private final ExpenseRepository expenseRepository;
+    private final IncomeRepository incomeRepository;
 
     @Autowired
-    private IncomeRepository incomeRepository;
+    public ReportServiceImpl(ExpenseRepository expenseRepository, IncomeRepository incomeRepository) {
+        this.expenseRepository = expenseRepository;
+        this.incomeRepository = incomeRepository;
+    }
 
     @Override
     public ReportResponse generateReport(ReportRequest req) {

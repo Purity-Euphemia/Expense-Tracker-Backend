@@ -12,11 +12,17 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
+
+    private final CategoryRepository categoryRepository;
+
     @Autowired
-    private CategoryRepository categoryRepository;
+    public CategoryServiceImpl(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
+    }
 
     @Override
     public CategoryResponse addCategory(AddCategoryRequest addCategoryRequest) {
@@ -29,6 +35,7 @@ public class CategoryServiceImpl implements CategoryService {
         Category saved = categoryRepository.save(category);
         return toResponse(saved);
     }
+
     @Override
     public List<CategoryResponse> getAllCategories() {
         List<Category> categories = categoryRepository.findAll();
@@ -38,43 +45,40 @@ public class CategoryServiceImpl implements CategoryService {
         }
         return responses;
     }
-    private CategoryResponse toResponse(Category category) {
-        CategoryResponse response = new CategoryResponse();
-        response.setId(category.getId());
-        response.setName(category.getName());
-        response.setType(category.getType());
-        return response;
-    }
+
     @Override
-    public CategoryResponse getCategoryById(int id) {
-        Category category = categoryRepository.findById(id);
-        if (category == null) {
-            throw new IllegalArgumentException("Category not found with id " + id);
-        }
+    public CategoryResponse getCategoryById(String id) {
+        Category category = categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Category not found with id " + id));
         return toResponse(category);
     }
+
     @Override
     public CategoryResponse updateCategory(String id, UpdateCategoryRequest updateCategoryRequest) {
-        Category existing = categoryRepository.findById(id);
-        if (existing == null) {
-            throw new ResourceNotFoundException("Category not found with id " + id);
-        }
+        Category existing = categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Category not found with id " + id));
+
         if (updateCategoryRequest.getName() != null && !updateCategoryRequest.getName().isBlank()) {
             existing.setName(updateCategoryRequest.getName());
         }
         if (updateCategoryRequest.getType() != null && !updateCategoryRequest.getType().isBlank()) {
             existing.setType(updateCategoryRequest.getType().toUpperCase());
         }
-        Category saved = categoryRepository.save(existing);
-        return toResponse(saved);
+
+        Category updated = categoryRepository.save(existing);
+        return toResponse(updated);
     }
+
     @Override
     public String deleteCategory(String id) {
-        Category existing = categoryRepository.findById(id);
-        if (existing == null) {
-            throw new ResourceNotFoundException("Category not found with id " + id);
-        }
+        Category existing = categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Category not found with id " + id));
         categoryRepository.deleteById(id);
         return "Category deleted";
+    }
+
+    private CategoryResponse toResponse(Category category) {
+        CategoryResponse response = new CategoryResponse();
+        response.setId(category.getId());
+        response.setName(category.getName());
+        response.setType(category.getType());
+        return response;
     }
 }

@@ -4,6 +4,7 @@ import com.ExpenseTrackerApp.dto.Request.AddBudgetRequest;
 import com.ExpenseTrackerApp.dto.Request.UpdateBudgetRequest;
 import com.ExpenseTrackerApp.dto.Response.BudgetResponse;
 import com.ExpenseTrackerApp.service.BudgetServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,26 +13,31 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/budgets")
 public class BudgetController {
-    private final BudgetServiceImpl service = new BudgetServiceImpl();
+    private final BudgetServiceImpl service;
+
+    @Autowired
+    public BudgetController(BudgetServiceImpl service) {
+        this.service = service;
+    }
 
     @PostMapping
     public BudgetResponse setBudget(@RequestBody AddBudgetRequest addBudgetRequest) {
         return service.setBudget(addBudgetRequest);
     }
     @GetMapping("/user/{userId}")
-    public List<BudgetResponse> getUserBudgets(@PathVariable("userId") int userId) {
+    public List<BudgetResponse> getUserBudgets(@PathVariable("userId") String userId) {
         return service.getUserBudgets(userId);
     }
     @GetMapping("/user/{userId}/category/{categoryId}/month/{month}/year/{year}")
-    public BudgetResponse getBudget(@PathVariable("userId") int userId, @PathVariable("categoryId") int categoryId, @PathVariable("month") int month, @PathVariable("year") int year) {
+    public BudgetResponse getBudget(@PathVariable("userId") String userId, @PathVariable("categoryId") String categoryId, @PathVariable("month") int month, @PathVariable("year") int year) {
         return service.getBudgetForUserCategoryMonth(userId, categoryId, month, year);
     }
     @PutMapping("/{id}")
-    public BudgetResponse updateBudget(@PathVariable("id") int id, @RequestBody UpdateBudgetRequest updateBudgetRequest) {
+    public BudgetResponse updateBudget(@PathVariable("id") String id, @RequestBody UpdateBudgetRequest updateBudgetRequest) {
         return service.updateBudget(id, updateBudgetRequest);
     }
     @DeleteMapping("/{id}")
-    public String deleteBudget(@PathVariable("id") int id) {
+    public String deleteBudget(@PathVariable("id") String id) {
         return service.deleteBudget(id);
     }
 }

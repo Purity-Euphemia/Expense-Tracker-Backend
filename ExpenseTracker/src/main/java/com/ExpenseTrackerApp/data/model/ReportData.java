@@ -4,6 +4,7 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDate;
 import java.util.Map;
 
 @Data
@@ -19,4 +20,6 @@ public class ReportData {
     private double balance;
     private int month;
     private int year;
+    private String title;
+    private LocalDate dateGenerated;
 }

@@ -16,8 +16,12 @@ import java.util.List;
 @Service
 public class BudgetServiceImpl implements BudgetService {
 
+    private final BudgetRepository budgetRepository;
+
     @Autowired
-    private BudgetRepository budgetRepository;
+    public BudgetServiceImpl(BudgetRepository budgetRepository) {
+        this.budgetRepository = budgetRepository;
+    }
 
     @Override
     public BudgetResponse setBudget(AddBudgetRequest addBudgetRequest) {
@@ -44,27 +48,20 @@ public class BudgetServiceImpl implements BudgetService {
     }
     @Override
     public BudgetResponse updateBudget(String id, UpdateBudgetRequest request) {
-        Budget budget = budgetRepository.findById(id).orElseThrow(
-                () -> new ResourceNotFoundException("Budget not found with ID: " + id)
+        Budget budget = budgetRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Budget not found with ID: " + id)
         );
         budget.setAmount(request.getAmount());
         return toResponse(budgetRepository.save(budget));
     }
     @Override
     public String deleteBudget(String id) {
-        Budget existing = budgetRepository.findById(id);
-        if (existing == null) {
-            throw new ResourceNotFoundException("Budget not found with id " + id);
-        }
+        Budget existing = budgetRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Budget not found with id " + id));
         budgetRepository.deleteById(id);
         return "Budget deleted";
     }
     @Override
-    public BudgetResponse getBudgetForUserCategoryMonth(int userId, int categoryId, int month, int year) {
-        Budget budget = budgetRepository.findByUserCategoryMonthYear(userId, categoryId, month, year);
-        if (budget == null) {
-            throw new ResourceNotFoundException("No budget found");
-        }
+    public BudgetResponse getBudgetForUserCategoryMonth(String userId, String categoryId, int month, int year) {
+        Budget budget = budgetRepository.findByUserIdAndCategoryIdAndMonthAndYear(userId, categoryId, month, year).orElseThrow(() -> new ResourceNotFoundException("No budget found"));
         return toResponse(budget);
     }
     private BudgetResponse toResponse(Budget b) {
