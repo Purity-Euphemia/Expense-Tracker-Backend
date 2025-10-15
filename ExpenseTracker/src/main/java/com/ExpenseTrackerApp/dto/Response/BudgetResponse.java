@@ -10,4 +10,5 @@ public class BudgetResponse {
     private double amount;
     private int month;
     private int year;
+    private String message;
 }

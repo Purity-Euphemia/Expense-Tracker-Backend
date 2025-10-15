@@ -10,5 +10,5 @@ public interface ExpenseRepository extends MongoRepository<Expense, String>{
     List<Expense> findByUserId(String userId);
     List<Expense> findByUserIdAndDateBetween(String userId, LocalDate start, LocalDate end);
 
-    List<Expense> id(String id);
+    //List<Expense> id(String id);
 }

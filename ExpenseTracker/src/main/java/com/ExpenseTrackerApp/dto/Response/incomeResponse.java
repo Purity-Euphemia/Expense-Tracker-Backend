@@ -12,6 +12,7 @@ public class IncomeResponse {
     private double amount;
     private String source;
     private LocalDate date;
+    private String message;
 
 
 }

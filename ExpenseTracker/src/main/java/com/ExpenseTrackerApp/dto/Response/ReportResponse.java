@@ -10,4 +10,5 @@ public class ReportResponse {
     private Map<String, Double> expenseByCategory;
     private double totalIncome;
     private double totalExpense;
+    private String message;
 }

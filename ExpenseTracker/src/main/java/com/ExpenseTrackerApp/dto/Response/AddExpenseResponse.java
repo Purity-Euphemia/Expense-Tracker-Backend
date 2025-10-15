@@ -12,4 +12,5 @@ public class AddExpenseResponse {
     private String category;
     private String description;
     private LocalDate date;
+    private String message;
 }
