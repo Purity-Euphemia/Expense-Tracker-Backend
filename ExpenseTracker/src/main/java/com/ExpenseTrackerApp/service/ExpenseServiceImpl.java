@@ -92,7 +92,6 @@ public class ExpenseServiceImpl implements ExpenseService {
     private AddExpenseResponse toResponse(Expense expense) {
         AddExpenseResponse addExpenseResponse = new AddExpenseResponse();
         addExpenseResponse.setId(expense.getId());
-        addExpenseResponse.setUserId(expense.getUserId());
         addExpenseResponse.setAmount(expense.getAmount());
         addExpenseResponse.setCategory(expense.getCategory());
         addExpenseResponse.setDescription(expense.getDescription());

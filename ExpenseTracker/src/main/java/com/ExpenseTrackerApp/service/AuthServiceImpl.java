@@ -40,6 +40,8 @@ public class AuthServiceImpl implements AuthService {
         LoginResponse loginResponse = new LoginResponse();
         loginResponse.setUserId(user.getId());
         loginResponse.setToken(token.getToken());
+        loginResponse.setEmail(user.getEmail());
+        loginResponse.setMessage("Login successful");
         return loginResponse;
     }
 
