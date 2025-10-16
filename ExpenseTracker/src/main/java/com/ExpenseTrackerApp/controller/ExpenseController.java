@@ -27,10 +27,10 @@ public class ExpenseController {
         return expenseService.addExpense(addExpenseRequest);
     }
 
-    @GetMapping("/user/{userId}")
-    public List<AddExpenseResponse> getByUser(@PathVariable("userId") String userId) {
-        System.out.println(">>> Controller received userId: " + userId);
-        return expenseService.getExpensesByUser(userId);
+    @GetMapping("/user/{userEmail}")
+    public List<AddExpenseResponse> getByUser(@PathVariable("userEmail") String userEmail) {
+        System.out.println(">>> Controller received userId: " + userEmail);
+        return expenseService.getExpensesByUser(userEmail);
     }
 
     @PutMapping("/{id}")
@@ -43,15 +43,15 @@ public class ExpenseController {
         return expenseService.deleteExpense(id);
     }
 
-    @GetMapping("/user/{userId}/monthly")
-    public double getMonthlyTotal(@PathVariable("userId") String userId, @RequestParam("month") int month, @RequestParam("year") int year) {
-        return expenseService.getMonthlyTotal(userId, month, year);
+    @GetMapping("/user/{userEmail}/monthly")
+    public double getMonthlyTotal(@PathVariable("userEmail") String userEmail, @RequestParam("month") int month, @RequestParam("year") int year) {
+        return expenseService.getMonthlyTotal(userEmail, month, year);
     }
 
-    @GetMapping("/user/{userId}/range")
-    public List<AddExpenseResponse> getInRange(@PathVariable("userId") String userId, @RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate) {
+    @GetMapping("/user/{userEmail}/range")
+    public List<AddExpenseResponse> getInRange(@PathVariable("userEmail") String userEmail, @RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate) {
         LocalDate startDateParsed = LocalDate.parse(startDate);
         LocalDate endDateParsed = LocalDate.parse(endDate);
-        return expenseService.getExpensesInRange(userId, startDateParsed, endDateParsed);
+        return expenseService.getExpensesInRange(userEmail, startDateParsed, endDateParsed);
     }
 }

@@ -28,7 +28,7 @@ public class ExpenseServiceImpl implements ExpenseService {
 
         ValidationUtils.validateExpense(addExpenseRequest);
 
-        
+
         if (!addExpenseRequest.getUserEmail().contains("@")) {
             System.out.println("⚠️ WARNING: userId does not appear to be an email address!");
         }

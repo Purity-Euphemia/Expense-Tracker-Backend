@@ -27,9 +27,9 @@ public class IncomeController {
         return service.addIncome(addIncomeRequest);
     }
 
-    @GetMapping("/user/{userId}")
-    public List<IncomeResponse> getByUser(@PathVariable("userId") String userId) {
-        return service.getIncomeByUser(userId);
+    @GetMapping("/user/{userEmail}")
+    public List<IncomeResponse> getByUser(@PathVariable("userEmail") String userEmail) {
+        return service.getIncomeByUser(userEmail);
     }
 
     @PutMapping("/{id}")
@@ -46,15 +46,15 @@ public class IncomeController {
         return service.getAllIncome();
     }
 
-    @GetMapping("/user/{userId}/monthly")
-    public double monthly(@PathVariable("userId") String userId, @RequestParam int month, @RequestParam int year) {
-        return service.getMonthlyIncome(userId, month, year);
+    @GetMapping("/user/{userEmail}/monthly")
+    public double monthly(@PathVariable("userEmail") String userEmail, @RequestParam int month, @RequestParam int year) {
+        return service.getMonthlyIncome(userEmail, month, year);
     }
 
-    @GetMapping("/user/{userId}/range")
-    public List<IncomeResponse> range(@PathVariable("userId") String userId, @RequestParam String start, @RequestParam String end) {
+    @GetMapping("/user/{userEmail}/range")
+    public List<IncomeResponse> range(@PathVariable("userEmail") String userEmail, @RequestParam String start, @RequestParam String end) {
         LocalDate startDate = LocalDate.parse(start);
         LocalDate endDate = LocalDate.parse(end);
-        return service.getIncomeInRange(userId, startDate, endDate);
+        return service.getIncomeInRange(userEmail, startDate, endDate);
     }
 }

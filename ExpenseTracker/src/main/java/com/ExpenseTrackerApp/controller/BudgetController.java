@@ -24,13 +24,13 @@ public class BudgetController {
     public BudgetResponse setBudget(@RequestBody AddBudgetRequest addBudgetRequest) {
         return service.setBudget(addBudgetRequest);
     }
-    @GetMapping("/user/{userId}")
-    public List<BudgetResponse> getUserBudgets(@PathVariable("userId") String userId) {
-        return service.getUserBudgets(userId);
+    @GetMapping("/user/{userEmail}")
+    public List<BudgetResponse> getUserBudgets(@PathVariable("userEmail") String userEmail) {
+        return service.getUserBudgets(userEmail);
     }
-    @GetMapping("/user/{userId}/category/{categoryId}/month/{month}/year/{year}")
-    public BudgetResponse getBudget(@PathVariable("userId") String userId, @PathVariable("categoryId") String categoryId, @PathVariable("month") int month, @PathVariable("year") int year) {
-        return service.getBudgetForUserCategoryMonth(userId, categoryId, month, year);
+    @GetMapping("/user/{userEmail}/category/{categoryId}/month/{month}/year/{year}")
+    public BudgetResponse getBudget(@PathVariable("userEmail") String userEmail, @PathVariable("categoryId") String categoryId, @PathVariable("month") int month, @PathVariable("year") int year) {
+        return service.getBudgetForUserCategoryMonth(userEmail, categoryId, month, year);
     }
     @PutMapping("/{id}")
     public BudgetResponse updateBudget(@PathVariable("id") String id, @RequestBody UpdateBudgetRequest updateBudgetRequest) {

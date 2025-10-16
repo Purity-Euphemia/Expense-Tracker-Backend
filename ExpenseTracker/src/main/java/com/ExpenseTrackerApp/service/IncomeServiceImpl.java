@@ -39,8 +39,8 @@ public class IncomeServiceImpl implements IncomeService {
     }
 
     @Override
-    public List<IncomeResponse> getIncomeByUser(String userId) {
-        List<Income> incomes = incomeRepository.findByUserId(userId);
+    public List<IncomeResponse> getIncomeByUser(String userEmail) {
+        List<Income> incomes = incomeRepository.findByUserId(userEmail);
         List<IncomeResponse> responses = new ArrayList<>();
         for (Income income : incomes) {
             responses.add(toResponse(income));
@@ -86,8 +86,8 @@ public class IncomeServiceImpl implements IncomeService {
     }
 
     @Override
-    public double getMonthlyIncome(String userId, int month, int year) {
-        List<Income> incomes = incomeRepository.findByUserId(userId);
+    public double getMonthlyIncome(String userEmail, int month, int year) {
+        List<Income> incomes = incomeRepository.findByUserId(userEmail);
         double total = 0;
         for (Income income : incomes) {
             if (income.getDate().getMonthValue() == month && income.getDate().getYear() == year) {
@@ -98,8 +98,8 @@ public class IncomeServiceImpl implements IncomeService {
     }
 
     @Override
-    public List<IncomeResponse> getIncomeInRange(String userId, LocalDate start, LocalDate end) {
-        List<Income> list = incomeRepository.findByUserIdAndDateBetween(userId, start, end);
+    public List<IncomeResponse> getIncomeInRange(String userEmail, LocalDate start, LocalDate end) {
+        List<Income> list = incomeRepository.findByUserIdAndDateBetween(userEmail, start, end);
         List<IncomeResponse> responses = new ArrayList<>();
         for (Income income : list) {
             responses.add(toResponse(income));

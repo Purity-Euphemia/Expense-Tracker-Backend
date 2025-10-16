@@ -9,10 +9,10 @@ import java.util.List;
 
 public interface IncomeService {
     IncomeResponse addIncome(AddIncomeRequest request);
-    List<IncomeResponse> getIncomeByUser(String userId);
+    List<IncomeResponse> getIncomeByUser(String userEmail);
     List<IncomeResponse> getAllIncome();
     IncomeResponse updateIncome(String id, UpdateIncomeRequest updateIncomeRequest);
     String deleteIncome(String id);
-    double getMonthlyIncome(String userId, int month, int year);
-    List<IncomeResponse> getIncomeInRange(String userId, LocalDate start, LocalDate end);
+    double getMonthlyIncome(String userEmail, int month, int year);
+    List<IncomeResponse> getIncomeInRange(String userEmail, LocalDate start, LocalDate end);
 }

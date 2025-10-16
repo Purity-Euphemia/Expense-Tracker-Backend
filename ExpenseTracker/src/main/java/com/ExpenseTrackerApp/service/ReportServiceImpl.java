@@ -28,10 +28,10 @@ public class ReportServiceImpl implements ReportService {
     @Override
     public ReportResponse generateReport(ReportRequest req) {
         List<Expense> expenses = expenseRepository.findByUserIdAndDateBetween(
-                req.getUserId(), req.getStartDate(), req.getEndDate());
+                req.getUserEmail(), req.getStartDate(), req.getEndDate());
 
         List<Income> incomes = incomeRepository.findByUserIdAndDateBetween(
-                req.getUserId(), req.getStartDate(), req.getEndDate());
+                req.getUserEmail(), req.getStartDate(), req.getEndDate());
 
         double totalExpense = 0.0;
         for (Expense expense : expenses) {
@@ -51,7 +51,7 @@ public class ReportServiceImpl implements ReportService {
         }
 
         ReportResponse response = new ReportResponse();
-        response.setUserId(req.getUserId());
+        response.setUserEmail(req.getUserEmail());
         response.setExpenseByCategory(byCategory);
         response.setTotalExpense(totalExpense);
         response.setTotalIncome(totalIncome);
