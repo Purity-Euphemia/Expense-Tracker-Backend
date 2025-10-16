@@ -28,7 +28,7 @@ public class BudgetServiceImpl implements BudgetService {
         ValidationUtils.validateBudget(addBudgetRequest);
 
         Budget budget = new Budget();
-        budget.setUserId(addBudgetRequest.getUserId());
+        budget.setUserEmail(addBudgetRequest.getUserEmail());
         budget.setCategoryId(addBudgetRequest.getCategoryId());
         budget.setAmount(addBudgetRequest.getAmount());
         budget.setMonth(addBudgetRequest.getMonth());
@@ -38,8 +38,8 @@ public class BudgetServiceImpl implements BudgetService {
         return toResponse(saved);
     }
     @Override
-    public List<BudgetResponse> getUserBudgets(String userId) {
-        List<Budget> all = budgetRepository.findByUserId(userId);
+    public List<BudgetResponse> getUserBudgets(String userEmail) {
+        List<Budget> all = budgetRepository.findByUserId(userEmail);
         List<BudgetResponse> respList = new ArrayList<>();
         for (Budget budget : all) {
             respList.add(toResponse(budget));
@@ -60,14 +60,14 @@ public class BudgetServiceImpl implements BudgetService {
         return "Budget deleted";
     }
     @Override
-    public BudgetResponse getBudgetForUserCategoryMonth(String userId, String categoryId, int month, int year) {
-        Budget budget = budgetRepository.findByUserIdAndCategoryIdAndMonthAndYear(userId, categoryId, month, year).orElseThrow(() -> new ResourceNotFoundException("No budget found"));
+    public BudgetResponse getBudgetForUserCategoryMonth(String userEmail, String categoryId, int month, int year) {
+        Budget budget = budgetRepository.findByUserIdAndCategoryIdAndMonthAndYear(userEmail, categoryId, month, year).orElseThrow(() -> new ResourceNotFoundException("No budget found"));
         return toResponse(budget);
     }
     private BudgetResponse toResponse(Budget b) {
         BudgetResponse budgetResponse = new BudgetResponse();
         budgetResponse.setId(b.getId());
-        budgetResponse.setUserId(b.getUserId());
+        budgetResponse.setUserEmail(b.getUserEmail());
         budgetResponse.setCategoryId(b.getCategoryId());
         budgetResponse.setAmount(b.getAmount());
         budgetResponse.setMonth(b.getMonth());

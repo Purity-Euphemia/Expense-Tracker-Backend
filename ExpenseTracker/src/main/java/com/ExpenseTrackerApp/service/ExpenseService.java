@@ -9,9 +9,9 @@ import java.util.List;
 
 public interface ExpenseService {
     AddExpenseResponse addExpense(AddExpenseRequest addExpenseResqeust);
-    List<AddExpenseResponse> getExpensesByUser(String userId);
+    List<AddExpenseResponse> getExpensesByUser(String userEmail);
     AddExpenseResponse updateExpense(String id, UpdateExpenseRequest updateExpenseRequest);
     String deleteExpense(String id);
-    double getMonthlyTotal(String userId, int month, int year);
-    List<AddExpenseResponse> getExpensesInRange(String userId, LocalDate startDate, LocalDate endDate);
+    double getMonthlyTotal(String userEmail, int month, int year);
+    List<AddExpenseResponse> getExpensesInRange(String userEmail, LocalDate startDate, LocalDate endDate);
 }

@@ -11,7 +11,7 @@ import java.time.LocalDate;
 public class Income {
     @Id
     private String id;
-    private String userId;
+    private String userEmail;
     private double amount;
     private String source;
     private LocalDate date;

@@ -33,12 +33,12 @@ public class AuthServiceImpl implements AuthService {
         }
 
         AuthToken token = new AuthToken();
-        token.setUserId(user.getId());
+        token.setUserEmail(user.getId());
         token.setToken(UUID.randomUUID().toString());
         authRepository.save(token);
 
         LoginResponse loginResponse = new LoginResponse();
-        loginResponse.setUserId(user.getId());
+        loginResponse.setUserEmail(user.getId());
         loginResponse.setToken(token.getToken());
         loginResponse.setEmail(user.getEmail());
         loginResponse.setMessage("Login successful");

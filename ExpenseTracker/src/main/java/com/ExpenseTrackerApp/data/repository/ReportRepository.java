@@ -6,6 +6,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.List;
 
 public interface ReportRepository extends MongoRepository<ReportData, String> {
-    List<ReportData> findByUserId(String userId);
+    List<ReportData> findByUserId(String userEmail);
 
 }

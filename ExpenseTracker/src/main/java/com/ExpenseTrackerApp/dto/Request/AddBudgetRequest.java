@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class AddBudgetRequest {
-    private String userId;
+    private String userEmail;
     private String categoryId;
     private double amount;
     private int month;

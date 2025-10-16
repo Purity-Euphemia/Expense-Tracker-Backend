@@ -9,5 +9,5 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class AuthToken {
     @Id
     private String token;
-    private String userId;
+    private String userEmail;
 }

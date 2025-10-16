@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 @Data
 public class ReportRequest {
-    private String userId;
+    private String userEmail;
     private LocalDate startDate;
     private LocalDate endDate;
 }

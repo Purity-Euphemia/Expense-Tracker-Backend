@@ -29,6 +29,7 @@ public class ExpenseController {
 
     @GetMapping("/user/{userId}")
     public List<AddExpenseResponse> getByUser(@PathVariable("userId") String userId) {
+        System.out.println(">>> Controller received userId: " + userId);
         return expenseService.getExpensesByUser(userId);
     }
 

@@ -22,24 +22,44 @@ public class ExpenseServiceImpl implements ExpenseService {
 
     @Override
     public AddExpenseResponse addExpense(AddExpenseRequest addExpenseRequest) {
+        System.out.println(">> AddExpenseRequest received: " + addExpenseRequest);
+        System.out.println(">> userId: " + addExpenseRequest.getUserEmail());
+
+
         ValidationUtils.validateExpense(addExpenseRequest);
+
+        
+        if (!addExpenseRequest.getUserEmail().contains("@")) {
+            System.out.println("⚠️ WARNING: userId does not appear to be an email address!");
+        }
+
+
         Expense expense = new Expense();
-        expense.setUserId(addExpenseRequest.getUserId());
+        expense.setUserEmail(addExpenseRequest.getUserEmail());
         expense.setAmount(addExpenseRequest.getAmount());
         expense.setCategory(addExpenseRequest.getCategory());
         expense.setDescription(addExpenseRequest.getDescription());
         expense.setDate(addExpenseRequest.getDate());
 
+        System.out.println(">> Expense to save: " + expense);
 
         Expense savedExpense = expenseRepository.save(expense);
+
+        System.out.println(">> Saved expense: " + savedExpense);
+
         return toResponse(savedExpense);
     }
 
     @Override
-    public List<AddExpenseResponse> getExpensesByUser(String userId) {
-        List<Expense> expenses = expenseRepository.findByUserId(userId);
+    public List<AddExpenseResponse> getExpensesByUser(String userEmail) {
+        System.out.println("Fetching expenses for userId: " + userEmail);
+
+        List<Expense> expenses = expenseRepository.findByUserId(userEmail);
+        System.out.println("Found " + expenses.size() + " expenses for user: " + userEmail);
+
         List<AddExpenseResponse> responses = new ArrayList<>();
         for (Expense expense : expenses) {
+            System.out.println("Expense: " + expense);
             responses.add(toResponse(expense));
         }
         return responses;
@@ -50,10 +70,14 @@ public class ExpenseServiceImpl implements ExpenseService {
         Expense existing = expenseRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Expense not found: " + id));
 
-        if (updateExpenseRequest.getAmount() != null) existing.setAmount(updateExpenseRequest.getAmount());
-        if (updateExpenseRequest.getCategory() != null) existing.setCategory(updateExpenseRequest.getCategory());
-        if (updateExpenseRequest.getDescription() != null) existing.setDescription(updateExpenseRequest.getDescription());
-        if (updateExpenseRequest.getDate() != null) existing.setDate(updateExpenseRequest.getDate());
+        if (updateExpenseRequest.getAmount() != null)
+            existing.setAmount(updateExpenseRequest.getAmount());
+        if (updateExpenseRequest.getCategory() != null)
+            existing.setCategory(updateExpenseRequest.getCategory());
+        if (updateExpenseRequest.getDescription() != null)
+            existing.setDescription(updateExpenseRequest.getDescription());
+        if (updateExpenseRequest.getDate() != null)
+            existing.setDate(updateExpenseRequest.getDate());
 
         Expense savedExpense = expenseRepository.save(existing);
         return toResponse(savedExpense);
@@ -69,11 +93,12 @@ public class ExpenseServiceImpl implements ExpenseService {
     }
 
     @Override
-    public double getMonthlyTotal(String userId, int month, int year) {
-        List<Expense> list = expenseRepository.findByUserId(userId);
+    public double getMonthlyTotal(String userEmail, int month, int year) {
+        List<Expense> list = expenseRepository.findByUserId(userEmail);
         double total = 0;
         for (Expense expense : list) {
-            if (expense.getDate().getMonthValue() == month && expense.getDate().getYear() == year) {
+            if (expense.getDate().getMonthValue() == month &&
+                    expense.getDate().getYear() == year) {
                 total += expense.getAmount();
             }
         }
@@ -81,8 +106,8 @@ public class ExpenseServiceImpl implements ExpenseService {
     }
 
     @Override
-    public List<AddExpenseResponse> getExpensesInRange(String userId, LocalDate startDate, LocalDate endDate) {
-        List<Expense> filteredExpenses = expenseRepository.findByUserIdAndDateBetween(userId, startDate, endDate);
+    public List<AddExpenseResponse> getExpensesInRange(String userEmail, LocalDate startDate, LocalDate endDate) {
+        List<Expense> filteredExpenses = expenseRepository.findByUserIdAndDateBetween(userEmail, startDate, endDate);
         List<AddExpenseResponse> responses = new ArrayList<>();
         for (Expense expense : filteredExpenses) {
             responses.add(toResponse(expense));

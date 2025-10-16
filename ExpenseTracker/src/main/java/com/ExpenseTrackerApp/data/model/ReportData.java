@@ -12,7 +12,7 @@ import java.util.Map;
 public class ReportData {
     @Id
     private String id;
-    private String userId;
+    private String userEmail;
     private Map<String, Double> totalsByCategory;
     private Map<String, Double> incomeBySource;
     private double totalIncome;

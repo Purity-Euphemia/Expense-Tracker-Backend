@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Budget {
     @Id
     private String id;
-    private String userId;
+    private String userEmail;
     private String categoryId;
     private double amount;
     private int month;

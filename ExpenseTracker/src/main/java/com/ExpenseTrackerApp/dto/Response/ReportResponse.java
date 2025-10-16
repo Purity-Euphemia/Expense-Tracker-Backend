@@ -6,7 +6,7 @@ import java.util.Map;
 
 @Data
 public class ReportResponse {
-    private String userId;
+    private String userEmail;
     private Map<String, Double> expenseByCategory;
     private double totalIncome;
     private double totalExpense;

@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 @Data
 public class AddIncomeRequest {
-    private String userId;
+    private String userEmail;
     private double amount;
     private String source;
     private LocalDate date;
