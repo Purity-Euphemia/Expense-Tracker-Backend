@@ -30,6 +30,7 @@ public class ExpenseServiceImpl implements ExpenseService {
         expense.setDescription(addExpenseRequest.getDescription());
         expense.setDate(addExpenseRequest.getDate());
 
+
         Expense savedExpense = expenseRepository.save(expense);
         return toResponse(savedExpense);
     }
@@ -96,6 +97,7 @@ public class ExpenseServiceImpl implements ExpenseService {
         addExpenseResponse.setCategory(expense.getCategory());
         addExpenseResponse.setDescription(expense.getDescription());
         addExpenseResponse.setDate(expense.getDate());
+        addExpenseResponse.setMessage("Expense added successfully");
         return addExpenseResponse;
     }
 }

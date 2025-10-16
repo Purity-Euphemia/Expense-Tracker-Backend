@@ -28,27 +28,27 @@ public class ExpenseController {
     }
 
     @GetMapping("/user/{userId}")
-    public List<AddExpenseResponse> getByUser(@PathVariable String userId) {
+    public List<AddExpenseResponse> getByUser(@PathVariable("userId") String userId) {
         return expenseService.getExpensesByUser(userId);
     }
 
     @PutMapping("/{id}")
-    public AddExpenseResponse updateExpense(@PathVariable String id, @RequestBody UpdateExpenseRequest updateExpenseRequest) {
+    public AddExpenseResponse updateExpense(@PathVariable("id") String id, @RequestBody UpdateExpenseRequest updateExpenseRequest) {
         return expenseService.updateExpense(id, updateExpenseRequest);
     }
 
     @DeleteMapping("/{id}")
-    public String deleteExpense(@PathVariable String id) {
+    public String deleteExpense(@PathVariable("id") String id) {
         return expenseService.deleteExpense(id);
     }
 
     @GetMapping("/user/{userId}/monthly")
-    public double getMonthlyTotal(@PathVariable String userId, @RequestParam int month, @RequestParam int year) {
+    public double getMonthlyTotal(@PathVariable("userId") String userId, @RequestParam("month") int month, @RequestParam("year") int year) {
         return expenseService.getMonthlyTotal(userId, month, year);
     }
 
     @GetMapping("/user/{userId}/range")
-    public List<AddExpenseResponse> getInRange(@PathVariable String userId, @RequestParam String startDate, @RequestParam String endDate) {
+    public List<AddExpenseResponse> getInRange(@PathVariable("userId") String userId, @RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate) {
         LocalDate startDateParsed = LocalDate.parse(startDate);
         LocalDate endDateParsed = LocalDate.parse(endDate);
         return expenseService.getExpensesInRange(userId, startDateParsed, endDateParsed);
